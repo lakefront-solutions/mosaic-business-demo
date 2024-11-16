@@ -2,7 +2,7 @@
 This repo is public
 <a id="readme-top"></a>
 
-<details> <summary>Table of Contents</summary> <ol> <li> <a href="#about-the-project">About the Project</a> <ul> <li><a href="#built-with">Built With</a></li> </ul> </li> <li> <a href="#why-kotlin">Why Kotlin?</a> <ul> <li><a href="#key-features-of-kotlin">Key Features of Kotlin</a></li> <li><a href="#comparison-with-java">Comparison with Java</a></li> </ul> </li> <li><a href="#system-diagram">System Diagram</a></li> <li> <a href="#menu-item-extraction-app-demo">Menu Item Extraction App Demo</a> <ul> <li><a href="#step-1-setting-up-your-environment">Step 1: Setting up Your Environment</a></li> <li><a href="#step-2-building-the-ui">Step 2: Building the UI</a></li> <li><a href="#step-3-implementing-dual-extraction-options">Step 3: Implementing Dual Extraction Options</a></li> <li><a href="#step-4-displaying-and-refining-results">Step 4: Displaying and Refining Results</a></li> </ul> </li>  <li><a href="#q-and-a-and-wrap-up">Q&A and Wrap-Up</a></li> </ol> </details>
+<details> <summary>Table of Contents</summary> <ol> <li> <a href="#about-the-project">About the Project</a> <ul> <li><a href="#built-with">Built With</a></li> </ul> </li> <li> <a href="#why-kotlin">Why Kotlin?</a> <ul> <li><a href="#key-features-of-kotlin">Key Features of Kotlin</a></li> <li><a href="#comparison-with-java">Comparison with Java</a></li> </ul> </li> <li><a href="#system-diagram">System Diagram</a></li> <li><a href="#system-diagram">What is OCR</a></li> <li> <a href="#menu-item-extraction-app-demo">Menu Item Extraction App Demo</a> <ul> <li><a href="#step-1-setting-up-your-environment">Step 1: Setting up Your Environment</a></li> <li><a href="#step-2-building-the-ui">Step 2: Building the UI</a></li> <li><a href="#step-3-implementing-dual-extraction-options">Step 3: Implementing Dual Extraction Options</a></li> <li><a href="#step-4-displaying-and-refining-results">Step 4: Displaying and Refining Results</a></li> </ul> </li>  <li><a href="#q-and-a-and-wrap-up">Q&A and Wrap-Up</a></li> </ol> </details>
 
 
 # About the Project
@@ -95,6 +95,23 @@ graph TD
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
+# What is OCR mlkit
+OCR stands for Optical Character Recognition. It is a technology that converts different types of documents, such as scanned paper documents, PDF files, or images taken by a camera, into editable and searchable data.
+
+## How OCR Works
+
+1. Image Capture:
+ * A document or text is scanned or photographed to produce a digital image.
+2. Preprocessing
+ * The image is cleaned up to improve recognition accuracy, such as by adjusting brightness, contrast, and removing noise.
+3. Text Recognition:
+ * The OCR software analyzes the image to detect characters, words, and numbers.
+4. Output:
+ * The recognized text is converted into a digital format like plain text, Word, or a searchable PDF.
+
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+ 
 # Menu Item Extraction App Demo
 ## Step 1: Setting up Your Environment
 
