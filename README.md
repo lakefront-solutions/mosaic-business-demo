@@ -191,7 +191,7 @@ val imagePickerLauncher = registerForActivityResult(ActivityResultContracts.GetC
 }
 ```
 
-### Capture Image and Process with ML Kit
+### Capture Image and Process with the OCR ML Kit to extract text
 ```kotlin
 fun processImage(inputImage: InputImage) {
     val recognizer = TextRecognition.getClient()
@@ -206,18 +206,49 @@ fun processImage(inputImage: InputImage) {
 }
 ```
 
-### Capture Image and Process with ChatGpt
+### Process extracted Text with ChatGPT
 ```kotlin
-fun processImage(inputImage: InputImage) {
-    val recognizer = TextRecognition.getClient()
-    recognizer.process(inputImage)
-        .addOnSuccessListener { result ->
-            val extractedText = result.text
-            updateMenuItems(extractedText)
+fun processTextWithChatGPT(extractedText: String) {
+    val prompt = """
+        Extract and format menu items from the following text:
+        $extractedText
+    """.trimIndent()
+
+    GlobalScope.launch(Dispatchers.IO) {
+        try {
+            val response = callChatGPTApi(prompt) // API call to ChatGPT
+            withContext(Dispatchers.Main) {
+                updateMenuItems(response) // Update UI with the result
+            }
+        } catch (e: Exception) {
+            Log.e("ChatGPT", "Error: ${e.message}")
         }
-        .addOnFailureListener { exception ->
-            Log.e("OCR", "Error: ${exception.message}")
+    }
+}
+
+suspend fun callChatGPTApi(prompt: String): String {
+    val apiKey = "your_openai_api_key"
+    val url = "https://api.openai.com/v1/chat/completions"
+
+    val client = OkHttpClient()
+    val requestBody = """
+        {
+            "model": "gpt-4",
+            "messages": [{"role": "user", "content": "$prompt"}]
         }
+    """.trimIndent()
+
+    val request = Request.Builder()
+        .url(url)
+        .addHeader("Authorization", "Bearer $apiKey")
+        .post(RequestBody.create("application/json".toMediaTypeOrNull(), requestBody))
+        .build()
+
+    client.newCall(request).execute().use { response ->
+        if (!response.isSuccessful) throw IOException("Unexpected code $response")
+        return JSONObject(response.body?.string() ?: "").getJSONArray("choices")
+            .getJSONObject(0).getJSONObject("message").getString("content")
+    }
 }
 ```
 
