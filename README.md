@@ -69,6 +69,15 @@ fun String.capitalizeWords(): String {
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
+# Comparison with Java
+
+| Feature           | Kotlin                                   | Java                           |
+|-------------------|------------------------------------------|--------------------------------|
+| Conciseness       | Reduces boilerplate code.               | Verbose, requires more code.  |
+| Null Safety       | Built-in.                               | Requires manual checks.       |
+| Async Handling    | Coroutines simplify async tasks.        | Relies on threads and callbacks. |
+| Interoperability  | Seamlessly integrates with Java codebases. | Limited Kotlin support.       |
+| Cross-Platform    | Focused on Android.                     | Ideal for desktop + Android.  |
 
 
 
