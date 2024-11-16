@@ -95,7 +95,7 @@ graph TD
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-# What is OCR mlkit
+# What is OCR
 OCR stands for Optical Character Recognition. It is a technology that converts different types of documents, such as scanned paper documents, PDF files, or images taken by a camera, into editable and searchable data.
 
 ## How OCR Works
