@@ -147,6 +147,35 @@ fun String.capitalizeWords(): String {
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
+## Step 3: Implementing the OCR Feature
+### Capture Image and Process with ML Kit
+```kotlin
+fun processImage(inputImage: InputImage) {
+    val recognizer = TextRecognition.getClient()
+    recognizer.process(inputImage)
+        .addOnSuccessListener { result ->
+            val extractedText = result.text
+            updateMenuItems(extractedText)
+        }
+        .addOnFailureListener { exception ->
+            Log.e("OCR", "Error: ${exception.message}")
+        }
+}
+```
+
+### Launch Image Picker
+```kotlin
+val imagePickerLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
+    uri?.let {
+        val inputImage = InputImage.fromFilePath(context, it)
+        processImage(inputImage)
+    }
+}
+```
+
+
+
+
 
 # System Diagram
 Diagram Description:
