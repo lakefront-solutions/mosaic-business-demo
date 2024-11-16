@@ -199,17 +199,56 @@ private val imagePickerLauncher = registerForActivityResult(ActivityResultContra
 
 ### Capture Image and Process with the OCR ML Kit to extract text
 ```kotlin
-fun processImage(inputImage: InputImage) {
-    val recognizer = TextRecognition.getClient()
-    recognizer.process(inputImage)
-        .addOnSuccessListener { result ->
-            val extractedText = result.text
-            processTextWithChatGPT(extractedText)
-        }
-        .addOnFailureListener { exception ->
-            Log.e("OCR", "Error: ${exception.message}")
-        }
-}
+private fun processImage(inputImage: InputImage) {
+        // Simulate processing and updating the menu items
+        val recognizer = TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS)
+        recognizer.process(inputImage)
+            .addOnSuccessListener { result ->
+                val extractedText = result.text
+                Log.d("OCR", "Extracted text: $extractedText")
+                processTextWithChatGPT(extractedText) // Send extracted text to ChatGPT
+            }
+            .addOnFailureListener { exception ->
+                Log.e("OCR", "Error: ${exception.message}")
+            }
+    }
+```
+
+### Use a special function to clean the extracted text (remove extra spaces and special characters)
+
+```kotlin
+fun cleanPrompt(input: String): String {
+        return input
+            .trim()                                     // Remove leading/trailing spaces
+            .replace(Regex("\\s+"), " ")               // Replace multiple spaces/newlines with a single space
+            .replace("\"", "\\\"")                     // Escape double quotes
+            .replace("\n", " ")                        // Replace newlines with spaces
+            .replace("W/", "with")                     // Replace abbreviations like W/ with "with"
+            .replace("w/", "with")
+            .replace("/", " ")
+            .replace("&", "and")                       // Replace & with "and"
+            .replace(Regex("[^\\x20-\\x7E]"), "")      // Remove non-printable characters
+    }
+```
+
+### update Menu items function
+```kotlin
+fun updateMenuItems(chatGptResponse: String, menuItems: MutableList<String>) {
+        // Split the response into lines
+        val lines = chatGptResponse.trim().lines()
+
+        // Filter and process lines that look like menu items
+        val items = lines.filter { it.matches(Regex("\\d+\\).*")) } // Lines starting with a number followed by ')'
+            .map { it.trim() } // Remove any extra whitespace
+            .map { line ->
+                // Remove numbering (e.g., "1) ") for a cleaner display
+                line.replace(Regex("^\\d+\\)\\s*"), "")
+            }
+
+        // Clear the current list and add new items
+        menuItems.clear()
+        menuItems.addAll(items)
+    }
 ```
 
 ### Process extracted Text with ChatGPT
