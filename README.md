@@ -98,6 +98,55 @@ fun String.capitalizeWords(): String {
    
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
+## Step 2: Building the UI
+ Use Jetpack Compose for modern UI design or traditional XML layouts.
+
+ ### Jetpack Compose Example
+ ```kotlin
+  @Composable
+  fun MenuScreen() {
+      Column(
+          modifier = Modifier.fillMaxSize(),
+          horizontalAlignment = Alignment.CenterHorizontally,
+      ) {
+          Text("Menu Extraction App", fontSize = 24.sp)
+          Button(onClick = { captureImage() }) {
+              Text("Capture Menu")
+          }
+          LazyColumn {
+              items(menuItems) { item ->
+                  Text(text = item, fontSize = 18.sp)
+              }
+          }
+      }
+  }
+```
+
+### XML Layout Example
+```XML
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/header"
+        android:text="Menu Extraction App"
+        android:textSize="24sp" />
+
+    <Button
+        android:id="@+id/captureButton"
+        android:text="Capture Menu" />
+
+    <RecyclerView
+        android:id="@+id/menuList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+</LinearLayout>
+```
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
 
 # System Diagram
 Diagram Description:
