@@ -22,20 +22,19 @@ This project introduces Kotlin, its benefits for Android development, and demons
 Conciseness:
 Replace boilerplate Java code with shorter Kotlin code.
 
-sh 
-  // Java
-  public class User {
-      private String name;
-      private int age;
+// Java
+public class User {
+    private String name;
+    private int age;
       
-      public User(String name, int age) {
-          this.name = name;
-          this.age = age;
-      }
-  }
+    public User(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+}
   
-  // Kotlin
-  data class User(val name: String, val age: Int)
+// Kotlin
+data class User(val name: String, val age: Int)
 
 
 
