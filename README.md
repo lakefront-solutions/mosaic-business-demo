@@ -124,7 +124,6 @@ OCR stands for Optical Character Recognition. It is a technology that converts d
     ```kotlin
     implementation "com.google.mlkit:text-recognition:16.0.1"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.9.0"
-    implementation "androidx.activity:activity-ktx:1.10.0-beta01" 
     ```
 
    
@@ -189,12 +188,13 @@ OCR stands for Optical Character Recognition. It is a technology that converts d
 
 ### Launch Image Picker
 ```kotlin
-val imagePickerLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
-    uri?.let {
-        val inputImage = InputImage.fromFilePath(context, it)
-        processImage(inputImage)
+// This goes inside your Activity class
+private val imagePickerLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
+        uri?.let {
+            val inputImage = InputImage.fromFilePath(this, it)
+            processImage(inputImage)
+        }
     }
-}
 ```
 
 ### Capture Image and Process with the OCR ML Kit to extract text
