@@ -9,10 +9,10 @@ This repo is public
 
 This project introduces Kotlin, its benefits for Android development, and demonstrates building a Menu Item Extraction App. The app uses OCR and ChatGPT to extract text from images and display extracted menu items in a clean, user-friendly interface.
 ## Built With
-* Kotlin – for concise and modern Android development.
-* ML Kit (OCR) – for text recognition.
-* XML layouts – for building the UI.
-* Coroutines – for asynchronous programming.
+  * Kotlin – for concise and modern Android development.
+  * ML Kit (OCR) – for text recognition.
+  * XML layouts – for building the UI.
+  * Coroutines – for asynchronous programming.
   
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -20,7 +20,7 @@ This project introduces Kotlin, its benefits for Android development, and demons
 
 ## Key Features of Kotlin
 ### Conciseness:
-* Replace boilerplate Java code with shorter Kotlin code.
+  * Replace boilerplate Java code with shorter Kotlin code.
 
 ```java
 // Java
@@ -41,14 +41,14 @@ data class User(val name: String, val age: Int)
 ```
 
 ### Null Safety:
-* Eliminate NullPointerException errors at compile time.
+  * Eliminate NullPointerException errors at compile time.
 
 ```kotlin
 val name: String? = null // Nullable variable
 println(name?.length)    // Safe call operator
 ```
 ### Coroutines for Async Programming:
-* Simplified threading for network calls or heavy processing.
+  * Simplified threading for network calls or heavy processing.
 
 ```kotlin
 GlobalScope.launch {
@@ -58,7 +58,7 @@ GlobalScope.launch {
 ```
 
 ### Extension Functions:
-* Add functionality to existing classes without modifying them.
+  * Add functionality to existing classes without modifying them.
 
 ```kotlin
 fun String.capitalizeWords(): String {
@@ -79,6 +79,24 @@ fun String.capitalizeWords(): String {
 | Interoperability  | Seamlessly integrates with Java codebases. | Limited Kotlin support.       |
 | Cross-Platform    | Focused on Android.                     | Ideal for desktop + Android.  |
 
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+# Menu Item Extraction App Demo
+## Step 1: Setting up Your Environment
+
+1. Install Android Studio:
+  * Download Android Studio.
+  * Configure Kotlin in your project.
+
+2. Add Dependencies:
+   * Add ML Kit and Coroutines dependencies in build.gradle.
+    ```kotlin
+    implementation "com.google.mlkit:text-recognition:16.0.0"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4"
+    ```
+
+   
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
 # System Diagram
