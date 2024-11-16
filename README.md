@@ -198,7 +198,7 @@ fun processImage(inputImage: InputImage) {
     recognizer.process(inputImage)
         .addOnSuccessListener { result ->
             val extractedText = result.text
-            updateMenuItems(extractedText)
+            processTextWithChatGPT(extractedText)
         }
         .addOnFailureListener { exception ->
             Log.e("OCR", "Error: ${exception.message}")
