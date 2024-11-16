@@ -306,25 +306,30 @@ fun callChatGPTApi(prompt: String): String {
 
 Use RecyclerView or LazyColumn to show menu items dynamically.
 
-### Kotlin RecyclerView Adapter
+### Kotlin LazyColumn with Text
  ```kotlin
- class MenuAdapter(private val items: List<String>) : RecyclerView.Adapter<MenuAdapter.ViewHolder>() {
-     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-         val textView: TextView = view.findViewById(R.id.textView)
-     }
+  @Composable
+ fun MenuScreen(menuItems: List<String>, onCaptureImage: () -> Unit) {
+     Column(
+         modifier = Modifier.fillMaxSize(),
+         horizontalAlignment = Alignment.CenterHorizontally,
+     ) {
+         Text("Menu Extraction App", fontSize = 24.sp)
  
-     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_view, parent, false)
-         return ViewHolder(view)
-     }
+         Button(onClick = { onCaptureImage() }) {
+             Text("Capture Menu")
+         }
  
-     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-         holder.textView.text = items[position]
+         LazyColumn {
+             items(menuItems) { item ->
+                 // Display each menu item bolded add space between each item
+                 Text(text = item, fontSize = 18.sp, fontWeight = androidx.compose.ui.text.font.FontWeight.Bold)
+                 Text(text = " ", fontSize = 12.sp)
+             }
+         }
      }
- 
-     override fun getItemCount() = items.size
  }
- ```
+```
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
