@@ -122,8 +122,8 @@ OCR stands for Optical Character Recognition. It is a technology that converts d
 2. Add Dependencies:
    * Add ML Kit and Coroutines dependencies in build.gradle.
     ```kotlin
-    implementation "com.google.mlkit:text-recognition:16.0.0"
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4"
+    implementation "com.google.mlkit:text-recognition:16.0.1"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.9.0"
     ```
 
    
