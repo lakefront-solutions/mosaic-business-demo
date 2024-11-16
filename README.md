@@ -124,6 +124,7 @@ OCR stands for Optical Character Recognition. It is a technology that converts d
     ```kotlin
     implementation "com.google.mlkit:text-recognition:16.0.1"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.9.0"
+    implementation "androidx.activity:activity-ktx:1.10.0-beta01" 
     ```
 
    
