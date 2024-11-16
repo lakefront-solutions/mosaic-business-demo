@@ -137,23 +137,22 @@ OCR stands for Optical Character Recognition. It is a technology that converts d
  ### Jetpack Compose Example
  ```kotlin
   @Composable
- fun MenuScreen(menuItems: MutableList<String>) {
+ fun MenuScreen(menuItems: List<String>, onCaptureImage: () -> Unit) {
      Column(
          modifier = Modifier.fillMaxSize(),
          horizontalAlignment = Alignment.CenterHorizontally,
      ) {
          Text("Menu Extraction App", fontSize = 24.sp)
-         
-         // Button to simulate adding a new menu item
-         Button(onClick = { menuItems.add("New Menu Item ${menuItems.size + 1}") }) {
+ 
+         Button(onClick = { onCaptureImage() }) {
              Text("Capture Menu")
          }
  
-         LazyColumn(
-             modifier = Modifier.fillMaxSize()
-         ) {
+         LazyColumn {
              items(menuItems) { item ->
-                 Text(text = item, fontSize = 18.sp)
+                 // Display each menu item bolded add space between each item
+                 Text(text = item, fontSize = 18.sp, fontWeight = androidx.compose.ui.text.font.FontWeight.Bold)
+                 Text(text = " ", fontSize = 12.sp)
              }
          }
      }
@@ -216,47 +215,52 @@ fun processImage(inputImage: InputImage) {
 ### Process extracted Text with ChatGPT
 ```kotlin
 fun processTextWithChatGPT(extractedText: String) {
-    val prompt = """
-        Extract and format menu items from the following text:
-        $extractedText
-    """.trimIndent()
 
-    GlobalScope.launch(Dispatchers.IO) {
-        try {
-            val response = callChatGPTApi(prompt) // API call to ChatGPT
-            withContext(Dispatchers.Main) {
-                updateMenuItems(response) // Update UI with the result
+        GlobalScope.launch(Dispatchers.IO) {
+            try {
+                val response = callChatGPTApi(extractedText) // API call to ChatGPT
+                withContext(Dispatchers.Main) {
+                    updateMenuItems(response, menuItems) // Update UI with the result
+                }
+            } catch (e: Exception) {
+                Log.e("ChatGPT", "Error: ${e.message}")
             }
-        } catch (e: Exception) {
-            Log.e("ChatGPT", "Error: ${e.message}")
         }
     }
-}
 
-suspend fun callChatGPTApi(prompt: String): String {
-    val apiKey = "your_openai_api_key"
-    val url = "https://api.openai.com/v1/chat/completions"
+fun callChatGPTApi(prompt: String): String {
+        val apiKey = APIClass.getOpenAIKey()
+        val url = "https://api.openai.com/v1/completions"
 
-    val client = OkHttpClient()
-    val requestBody = """
-        {
-            "model": "gpt-4",
-            "messages": [{"role": "user", "content": "$prompt"}]
+        // Create the JSON payload for the Completions endpoint
+        val jsonObject = JSONObject().apply {
+            put("model", "gpt-3.5-turbo-instruct")
+            put("prompt", "Extract and format menu items from the following text: ${cleanPrompt(prompt)}")
+            put("max_tokens", 500)
+            put("temperature", 0.7)
         }
-    """.trimIndent()
+        val requestBody = jsonObject.toString()
 
-    val request = Request.Builder()
-        .url(url)
-        .addHeader("Authorization", "Bearer $apiKey")
-        .post(RequestBody.create("application/json".toMediaTypeOrNull(), requestBody))
-        .build()
+        val client = OkHttpClient()
 
-    client.newCall(request).execute().use { response ->
-        if (!response.isSuccessful) throw IOException("Unexpected code $response")
-        return JSONObject(response.body?.string() ?: "").getJSONArray("choices")
-            .getJSONObject(0).getJSONObject("message").getString("content")
+        val request = Request.Builder()
+            .url(url)
+            .addHeader("Authorization", "Bearer $apiKey")
+            .addHeader("Content-Type", "application/json")
+            .post(requestBody.toRequestBody("application/json".toMediaTypeOrNull()))
+            .build()
+
+        client.newCall(request).execute().use { response ->
+            val responseBody = response.body?.string()
+            if (!response.isSuccessful) {
+                Log.e("ChatGPT Error", "Code: ${response.code}, Body: $responseBody")
+                throw IOException("Unexpected code $response")
+            }
+            // Parse and return the generated text from the response
+            return JSONObject(responseBody ?: "").getJSONArray("choices")
+                .getJSONObject(0).getString("text")
+        }
     }
-}
 ```
 
 ## Step 4: Displaying Extracted Items
