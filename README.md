@@ -136,22 +136,27 @@ OCR stands for Optical Character Recognition. It is a technology that converts d
  ### Jetpack Compose Example
  ```kotlin
   @Composable
-  fun MenuScreen() {
-      Column(
-          modifier = Modifier.fillMaxSize(),
-          horizontalAlignment = Alignment.CenterHorizontally,
-      ) {
-          Text("Menu Extraction App", fontSize = 24.sp)
-          Button(onClick = { captureImage() }) {
-              Text("Capture Menu")
-          }
-          LazyColumn {
-              items(menuItems) { item ->
-                  Text(text = item, fontSize = 18.sp)
-              }
-          }
-      }
-  }
+ fun MenuScreen(menuItems: MutableList<String>) {
+     Column(
+         modifier = Modifier.fillMaxSize(),
+         horizontalAlignment = Alignment.CenterHorizontally,
+     ) {
+         Text("Menu Extraction App", fontSize = 24.sp)
+         
+         // Button to simulate adding a new menu item
+         Button(onClick = { menuItems.add("New Menu Item ${menuItems.size + 1}") }) {
+             Text("Capture Menu")
+         }
+ 
+         LazyColumn(
+             modifier = Modifier.fillMaxSize()
+         ) {
+             items(menuItems) { item ->
+                 Text(text = item, fontSize = 18.sp)
+             }
+         }
+     }
+ }
 ```
 
 ### XML Layout Example
