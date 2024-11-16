@@ -6,6 +6,7 @@ This repo is public
 
 
 
+# System Diagram
 Diagram Description:
 The system diagram shows a single input (menu image) branching into two processes (OCR and ChatGPT). Both processes lead to the result being displayed to the user.
 ```mermaid
