@@ -2,7 +2,7 @@
 This repo is public
 <a id="readme-top"></a>
 
-<details> <summary>Table of Contents</summary> <ol> <li> <a href="#about-the-project">About the Project</a> <ul> <li><a href="#built-with">Built With</a></li> </ul> </li> <li> <a href="#why-kotlin">Why Kotlin?</a> <ul> <li><a href="#key-features-of-kotlin">Key Features of Kotlin</a></li> <li><a href="#comparison-with-java">Comparison with Java</a></li> </ul> </li> <li> <a href="#menu-item-extraction-app-demo">Menu Item Extraction App Demo</a> <ul> <li><a href="#step-1-setting-up-your-environment">Step 1: Setting up Your Environment</a></li> <li><a href="#step-2-building-the-ui">Step 2: Building the UI</a></li> <li><a href="#step-3-implementing-dual-extraction-options">Step 3: Implementing Dual Extraction Options</a></li> <li><a href="#step-4-displaying-and-refining-results">Step 4: Displaying and Refining Results</a></li> </ul> </li> <li><a href="#system-diagram">System Diagram</a></li> <li><a href="#q-and-a-and-wrap-up">Q&A and Wrap-Up</a></li> </ol> </details>
+<details> <summary>Table of Contents</summary> <ol> <li> <a href="#about-the-project">About the Project</a> <ul> <li><a href="#built-with">Built With</a></li> </ul> </li> <li> <a href="#why-kotlin">Why Kotlin?</a> <ul> <li><a href="#key-features-of-kotlin">Key Features of Kotlin</a></li> <li><a href="#comparison-with-java">Comparison with Java</a></li> </ul> </li> <li><a href="#system-diagram">System Diagram</a></li> <li> <a href="#menu-item-extraction-app-demo">Menu Item Extraction App Demo</a> <ul> <li><a href="#step-1-setting-up-your-environment">Step 1: Setting up Your Environment</a></li> <li><a href="#step-2-building-the-ui">Step 2: Building the UI</a></li> <li><a href="#step-3-implementing-dual-extraction-options">Step 3: Implementing Dual Extraction Options</a></li> <li><a href="#step-4-displaying-and-refining-results">Step 4: Displaying and Refining Results</a></li> </ul> </li>  <li><a href="#q-and-a-and-wrap-up">Q&A and Wrap-Up</a></li> </ol> </details>
 
 
 # About the Project
@@ -81,6 +81,20 @@ fun String.capitalizeWords(): String {
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
+# System Diagram
+Diagram Description:
+The system diagram shows a single input (menu image) branching into two processes (OCR and ChatGPT). Both processes lead to the result being displayed to the user.
+```mermaid
+graph TD
+    A[User Uploads Image of Menu] --> B{Choose Extraction Method}
+    B -->|OCR| C[Process Image Using OCR]
+    B -->|ChatGPT| D[Send Image or Text to ChatGPT API]
+    C --> E[Display Extracted Menu Items to User]
+    D --> E[Display Extracted Menu Items to User]
+```
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
 # Menu Item Extraction App Demo
 ## Step 1: Setting up Your Environment
 
@@ -97,6 +111,7 @@ fun String.capitalizeWords(): String {
 
    
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
+
 
 ## Step 2: Building the UI
  Use Jetpack Compose for modern UI design or traditional XML layouts.
@@ -148,6 +163,17 @@ fun String.capitalizeWords(): String {
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ## Step 3: Implementing Dual Extraction Options
+
+### Launch Image Picker
+```kotlin
+val imagePickerLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
+    uri?.let {
+        val inputImage = InputImage.fromFilePath(context, it)
+        processImage(inputImage)
+    }
+}
+```
+
 ### Capture Image and Process with ML Kit
 ```kotlin
 fun processImage(inputImage: InputImage) {
@@ -163,31 +189,45 @@ fun processImage(inputImage: InputImage) {
 }
 ```
 
-### Launch Image Picker
+### Capture Image and Process with ChatGpt
 ```kotlin
-val imagePickerLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
-    uri?.let {
-        val inputImage = InputImage.fromFilePath(context, it)
-        processImage(inputImage)
-    }
+fun processImage(inputImage: InputImage) {
+    val recognizer = TextRecognition.getClient()
+    recognizer.process(inputImage)
+        .addOnSuccessListener { result ->
+            val extractedText = result.text
+            updateMenuItems(extractedText)
+        }
+        .addOnFailureListener { exception ->
+            Log.e("OCR", "Error: ${exception.message}")
+        }
 }
 ```
 
+## Step 4: Displaying Extracted Items
 
+Use RecyclerView or LazyColumn to show menu items dynamically.
 
-
-
-# System Diagram
-Diagram Description:
-The system diagram shows a single input (menu image) branching into two processes (OCR and ChatGPT). Both processes lead to the result being displayed to the user.
-```mermaid
-graph TD
-    A[User Uploads Image of Menu] --> B{Choose Extraction Method}
-    B -->|OCR| C[Process Image Using OCR]
-    B -->|ChatGPT| D[Send Image or Text to ChatGPT API]
-    C --> E[Display Extracted Menu Items to User]
-    D --> E[Display Extracted Menu Items to User]
-```
+### Kotlin RecyclerView Adapter
+ ```kotlin
+ class MenuAdapter(private val items: List<String>) : RecyclerView.Adapter<MenuAdapter.ViewHolder>() {
+     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+         val textView: TextView = view.findViewById(R.id.textView)
+     }
+ 
+     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_view, parent, false)
+         return ViewHolder(view)
+     }
+ 
+     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+         holder.textView.text = items[position]
+     }
+ 
+     override fun getItemCount() = items.size
+ }
+ ```
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
+
 
