@@ -8,7 +8,13 @@ This repo is public
 # About the Project
 
 This project introduces Kotlin, its benefits for Android development, and demonstrates building a Menu Item Extraction App. The app uses OCR and ChatGPT to extract text from images and display extracted menu items in a clean, user-friendly interface.
-
+## Built With
+* Kotlin – for concise and modern Android development.
+* ML Kit (OCR) – for text recognition.
+* XML layouts – for building the UI.
+* Coroutines – for asynchronous programming.
+  
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
 # System Diagram
