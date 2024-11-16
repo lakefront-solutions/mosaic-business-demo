@@ -88,9 +88,9 @@ The system diagram shows a single input (menu image) branching into two processe
 graph TD
     A[User Uploads Image of Menu] --> B{Choose Extraction Method}
     B -->|OCR| C[Process Image Using OCR]
-    B -->|ChatGPT| D[Send Image or Text to ChatGPT API]
-    C --> E[Display Extracted Menu Items to User]
+    C -->|ChatGPT| D[Send Image or Text to ChatGPT API]
     D --> E[Display Extracted Menu Items to User]
+    E --> E[Display Extracted Menu Items to User]
 ```
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
