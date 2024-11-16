@@ -147,7 +147,7 @@ fun String.capitalizeWords(): String {
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-## Step 3: Implementing the OCR Feature
+## Step 3: Implementing Dual Extraction Options
 ### Capture Image and Process with ML Kit
 ```kotlin
 fun processImage(inputImage: InputImage) {
