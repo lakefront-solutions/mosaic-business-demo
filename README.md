@@ -6,11 +6,14 @@ This repo is public
 
 
 
-###Diagram Description:
+Diagram Description:
 The system diagram shows a single input (menu image) branching into two processes (OCR and ChatGPT). Both processes lead to the result being displayed to the user.
+```mermaid
 graph TD
     A[User Uploads Image of Menu] --> B{Choose Extraction Method}
-    B -->|OCR| C[Process Image with OCR]
-    B -->|ChatGPT| D[Send Image/Text to ChatGPT API]
-    C --> E[Extracted Menu Items Displayed]
-    D --> E[Extracted Menu Items Displayed]
+    B -->|OCR| C[Process Image Using OCR]
+    B -->|ChatGPT| D[Send Image or Text to ChatGPT API]
+    C --> E[Display Extracted Menu Items to User]
+    D --> E[Display Extracted Menu Items to User]
+```
+
