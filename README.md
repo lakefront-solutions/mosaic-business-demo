@@ -29,3 +29,5 @@ graph TD
     D --> E[Display Extracted Menu Items to User]
 ```
 
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
